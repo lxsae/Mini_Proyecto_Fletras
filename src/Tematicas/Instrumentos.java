@@ -1,6 +1,7 @@
 
 package Tematicas;
 import Logica.Juego;
+import Logica.Jugador;
 import Logica.VentanaTemas;
 
 import java.awt.BorderLayout;
@@ -23,15 +24,15 @@ public class Instrumentos extends JFrame {
     private String[] instrumentos = {"Guitarra", "Bajo", "Bateria", "Violin", "Piano"};
     private List<Character> vocales = Arrays.asList('a', 'e', 'i', 'o', 'u');
     private JButton[] vowelButtons = new JButton[5];
+    private FuncionesJuego fj = new FuncionesJuego();
+    private JLabel labelFondo;
+    private Jugador j;
     private char letra;
     private int palabrasAdivinadas = 0;
-    private int fallos = 0;
-    private int intentos = 0;
-    private int numPalabras = 0;
-    private JLabel labelFondo;
-    
-    public Instrumentos() {
-        super("Instrumentos");
+
+    public Instrumentos(Jugador j) {
+        super("Jugador: " + j.getNombre().substring(0,1).toUpperCase() + j.getNombre().substring(1).toLowerCase() + " - Instrumentos");
+        this.j = j;
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // Obtener el tamaño de la pantalla y centrar la ventana en ella
@@ -41,27 +42,12 @@ public class Instrumentos extends JFrame {
         setSize(ancho / 3, alto / 3);
         setLocation(ancho / 3, alto / 3);
 
-        // Elegir una palabra aleatoria del array de animales
-        int palabraIndex = (int) (Math.random() * instrumentos.length);
-        String palabra = instrumentos[palabraIndex];
-        String vocales = "AEIOUaeiou";
 
-        int vocalFaltante = -1;
-        while (vocalFaltante == -1) {
-            int indice = (int) (Math.random() * palabra.length());
-            letra = palabra.charAt(indice);
-            if (vocales.indexOf(letra) != -1) {
-                vocalFaltante = indice;
-
-            }
-        }
-        String palabraSinVocal = palabra.substring(0, vocalFaltante) + "_"
-                + palabra.substring(vocalFaltante + 1);
-        JLabel etiquetaAnimal = new JLabel(palabraSinVocal);
-        etiquetaAnimal.setForeground(Color.red); 
-        etiquetaAnimal.setFont(new Font("arial", Font.BOLD, 50));
-        etiquetaAnimal.setHorizontalAlignment(JTextField.CENTER);
-        add(etiquetaAnimal);
+        JLabel etiquetaInstrumentos = new JLabel(fj.getPalabraSinVocal(instrumentos));
+        etiquetaInstrumentos.setForeground(Color.red);
+        etiquetaInstrumentos.setFont(new Font("arial", Font.BOLD, 50));
+        etiquetaInstrumentos.setHorizontalAlignment(JTextField.CENTER);
+        add(etiquetaInstrumentos);
         addVowelButtons();
         setVisible(true);
         
@@ -70,13 +56,14 @@ public class Instrumentos extends JFrame {
         this.getContentPane().add(panel);
         panel.setLayout(null);
         
-        ImageIcon imagenFondo = new ImageIcon("src/Imagenes/Instrumentos.png");
+        ImageIcon imagenFondo = new ImageIcon("Mini_Proyecto_Fletras-master/src/Imagenes/Instrumentos.png");
         
         // Crear el JLabel para representar la imagen
         labelFondo = new JLabel(imagenFondo);
         labelFondo.setBounds(0, 0, 600, 500);
         panel.add(labelFondo);
         add(panel);
+
         
     }
 
@@ -92,6 +79,7 @@ public class Instrumentos extends JFrame {
         add(panel, BorderLayout.SOUTH);
     }
 
+
     private class VowelButtonListener implements ActionListener {
 
         @Override
@@ -105,72 +93,34 @@ public class Instrumentos extends JFrame {
             etiquetaAnimal.setText(palabra);
             // Comprobar si la letra es la vocal faltante
             comprobarVocalFaltante(letraButton);
+
         }
     }
 
     private void comprobarVocalFaltante(String letraButton) {
         // Obtener la palabra actual del JLabel
-        JLabel etiquetaAnimal = (JLabel) getContentPane().getComponent(0);
-        // Obtener la vocal faltante de la palabra
-        if (letra == letraButton.charAt(0)) {
-            JOptionPane.showMessageDialog(null, "¡Correcto!");
-            // Incrementar el contador de palabras adivinadas
-            palabrasAdivinadas++;
-            intentos++;
-            // Verificar si se han adivinado todas las palabras
-            if (palabrasAdivinadas == instrumentos.length) {
-                JOptionPane.showMessageDialog(null, "¡Felicidades! Has adivinado todas las palabras.");
+        JLabel etiquetaInstrumentos = (JLabel) getContentPane().getComponent(0);
+        switch (fj.comprobarMensaje(instrumentos, letraButton, palabrasAdivinadas)){
+            case 1 -> {
+                JOptionPane.showMessageDialog( null, "¡Correcto!");
+                palabrasAdivinadas++;
+                etiquetaInstrumentos.setText(fj.getPalabraSinVocal(instrumentos));
+            }
+            case 2 -> {
+                JOptionPane.showMessageDialog( null, "¡Felicidades! Has adivinado todas las palabras.");
                 mostrarResultados();
-                new VentanaTemas();
+                new VentanaTemas(j);
                 dispose();
-            } else {
-                // Elegir una nueva palabra aleatoria del array de animales
-                int palabraIndex = (int) (Math.random() * instrumentos.length);
-                String nuevaPalabra = instrumentos[palabraIndex];
-                // Encontrar la nueva vocal faltante
-                int vocalFaltante = -1;
-                while (vocalFaltante == -1) {
-                    int indice = (int) (Math.random() * nuevaPalabra.length());
-                    letra = nuevaPalabra.charAt(indice);
-                    if (vocales.indexOf(letra) != -1) {
-                        vocalFaltante = indice;
-                    }
-                }
-                // Mostrar la nueva palabra con la vocal faltante
-                String nuevaPalabraSinVocal = nuevaPalabra.substring(0, vocalFaltante) + "_"
-                        + nuevaPalabra.substring(vocalFaltante + 1);
-                etiquetaAnimal.setText(nuevaPalabraSinVocal);
             }
-        } else {
-            fallos++;
-            intentos++;
-            JOptionPane.showMessageDialog(null, "Incorrecto. Sigue intentando.");
-            // Elegir una nueva palabra aleatoria del array de animales
-            int palabraIndex = (int) (Math.random() * instrumentos.length);
-            String nuevaPalabra = instrumentos[palabraIndex];
-            // Encontrar la nueva vocal faltante
-            int vocalFaltante = -1;
-            while (vocalFaltante == -1) {
-                int indice = (int) (Math.random() * nuevaPalabra.length());
-                letra = nuevaPalabra.charAt(indice);
-                if (vocales.indexOf(letra) != -1) {
-                    vocalFaltante = indice;
-                }
+            case 3 -> {
+                JOptionPane.showMessageDialog( null, "¡Has fallado!");
+                etiquetaInstrumentos.setText(fj.getPalabraSinVocal(instrumentos));
             }
-            // Mostrar la nueva palabra con la vocal faltante
-            String nuevaPalabraSinVocal = nuevaPalabra.substring(0, vocalFaltante) + "_"
-                    + nuevaPalabra.substring(vocalFaltante + 1);
-            etiquetaAnimal.setText(nuevaPalabraSinVocal);
         }
     }
 
     private void mostrarResultados() {
-        JOptionPane.showMessageDialog(this, "Resultados:\n"
-                + "Jugador: "  + "\n"
-                + "Numero de palabras: " + intentos + "\n"
-                + "Intentos: " + intentos + "\n"
-                + "Aciertos: " + palabrasAdivinadas + "\n"
-                + "Fallos: " + fallos);
+        JOptionPane.showMessageDialog(this, fj.mostrarResultados(j.getNombre(), palabrasAdivinadas));
         dispose();
     }
 }

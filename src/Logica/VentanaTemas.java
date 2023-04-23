@@ -21,8 +21,10 @@ public class VentanaTemas extends JFrame implements ActionListener {
     private JButton botonAnimales, botonFrutas, botonColores, botonInstrumentos;
     private JLabel etiquetaResultado;
     private JLabel labelFondo;
+    private Jugador jugador;
 
-    public VentanaTemas() {
+    public VentanaTemas(Jugador j) {
+        jugador = j;
         // Configuración de la ventana
         setTitle("SELECCIONA UNA TEMATICA");
         setSize(600, 500);
@@ -83,7 +85,7 @@ public class VentanaTemas extends JFrame implements ActionListener {
         add(panel);
         
         // Crear la imagen de fondo
-        ImageIcon imagenFondo = new ImageIcon("src/Imagenes/Fondo.png");
+        ImageIcon imagenFondo = new ImageIcon("Mini_Proyecto_Fletras-master/src/Imagenes/Fondo.png");
         
         // Crear el JLabel para representar la imagen
         labelFondo = new JLabel(imagenFondo);
@@ -104,19 +106,19 @@ public class VentanaTemas extends JFrame implements ActionListener {
         // Acciones a realizar cuando se pulsa alguno de los botones
         if (e.getSource() == botonAnimales) {
         // Abrir la ventana de animales
-            Animales ventanaAnimales = new Animales();
+            Animales ventanaAnimales = new Animales(jugador);
             this.dispose();
         } else if (e.getSource() == botonFrutas) {
         // Abrir la ventana de frutas
-            Frutas ventanaFrutas = new Frutas();
+            Frutas ventanaFrutas = new Frutas(jugador);
             this.dispose();
         } else if (e.getSource() == botonColores) {
         // Abrir la ventana de colores
-            Colores ventanaColores = new Colores();
+            Colores ventanaColores = new Colores(jugador);
             this.dispose();
         } else if (e.getSource() == botonInstrumentos) {
             // Abrir la ventana de instrumentos
-            Instrumentos ventanaInstrumentos = new Instrumentos();
+            Instrumentos ventanaInstrumentos = new Instrumentos(jugador);
             this.dispose();
 
         }
