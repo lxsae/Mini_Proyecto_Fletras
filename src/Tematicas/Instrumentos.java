@@ -56,7 +56,7 @@ public class Instrumentos extends JFrame {
         this.getContentPane().add(panel);
         panel.setLayout(null);
         
-        ImageIcon imagenFondo = new ImageIcon("Mini_Proyecto_Fletras-master/src/Imagenes/Instrumentos.png");
+        ImageIcon imagenFondo = new ImageIcon("src/Imagenes/Instrumentos.png");
         
         // Crear el JLabel para representar la imagen
         labelFondo = new JLabel(imagenFondo);

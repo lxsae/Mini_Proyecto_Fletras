@@ -65,7 +65,7 @@ public class Animales extends JFrame {
         panel.setLayout(null);
 
         //Check path
-        ImageIcon imagenFondo = new ImageIcon("Mini_Proyecto_Fletras-master/src/Imagenes/Animales.png");
+        ImageIcon imagenFondo = new ImageIcon("src/Imagenes/Animales.png");
         
         // Crear el JLabel para representar la imagen
         labelFondo = new JLabel(imagenFondo);

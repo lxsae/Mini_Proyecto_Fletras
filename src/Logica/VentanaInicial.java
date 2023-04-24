@@ -84,7 +84,7 @@ public class VentanaInicial extends JFrame implements ActionListener {
 
 
         // Crear la imagen de fondo
-        ImageIcon imagenFondo = new ImageIcon("Mini_Proyecto_Fletras-master/src/Imagenes/Fondo.png");
+        ImageIcon imagenFondo = new ImageIcon("src/Imagenes/Fondo.png");
 
         // Crear el JLabel para representar la imagen
         labelFondo = new JLabel(imagenFondo);
@@ -111,9 +111,9 @@ public class VentanaInicial extends JFrame implements ActionListener {
             new VentanaTemas(jugador);
         } else if (e.getSource() == botonInstrucciones) {
             // Código para mostrar las instrucciones
-            JOptionPane.showMessageDialog(null, "Debes adivinar la vocal falante de una palabra aleatoria"
+            JOptionPane.showMessageDialog(null, "Debes adivinar la vocal faltante de una palabra aleatoria"
                     + "\n que saldra dependiendo de la tematica que escogiste. "
-                    + "\n Nota: El juago solo termina cuando aciertes \n todas las palabras de la tematica"
+                    + "\n Nota: El juego solo termina cuando aciertes \n todas las palabras de la tematica"
                     + "\n BUENA SUERTE (.-.) ");
         }
 

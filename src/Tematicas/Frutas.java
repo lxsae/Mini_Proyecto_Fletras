@@ -74,7 +74,7 @@ public class Frutas extends JFrame {
         this.getContentPane().add(panel);
         panel.setLayout(null);
         
-        ImageIcon imagenFondo = new ImageIcon("Mini_Proyecto_Fletras-master/src/Imagenes/Frutas.png");
+        ImageIcon imagenFondo = new ImageIcon("src/Imagenes/Frutas.png");
         
         // Crear el JLabel para representar la imagen
         labelFondo = new JLabel(imagenFondo);

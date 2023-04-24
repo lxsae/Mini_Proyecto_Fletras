@@ -85,7 +85,7 @@ public class VentanaTemas extends JFrame implements ActionListener {
         add(panel);
         
         // Crear la imagen de fondo
-        ImageIcon imagenFondo = new ImageIcon("Mini_Proyecto_Fletras-master/src/Imagenes/Fondo.png");
+        ImageIcon imagenFondo = new ImageIcon("src/Imagenes/Fondo.png");
         
         // Crear el JLabel para representar la imagen
         labelFondo = new JLabel(imagenFondo);
